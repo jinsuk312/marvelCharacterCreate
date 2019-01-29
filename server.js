@@ -37,18 +37,18 @@ var characters = [{
 // Routes
 // =============================================================
 
-// route that sends the user first to the view page
+// route that sends the user to the view page - as homepage
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "view.html"));
 });
-// route that sends the user to add character page
+// route that sends the user to add page
 app.get("/add", function (req, res) {
     res.sendFile(path.join(__dirname, "add.html"));
 });
 
-// Get all characters
+// route that sends the user to all page
 app.get("/all", function (req, res) {
-    res.json(characters);
+    res.sendFile(path.join(__dirname, "all.html"));
 });
 
 // Search for Specific Character (or all characters) - provides JSON
