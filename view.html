@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- App tab title-->
+    <title>Marvel Express App</title>
+    <!-- bootstrap css/js -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Marvel Express</h1>
+            <h3>The greatest resource in the galaxy for Marvel statistics!</h3>
+            <hr>
+            <a href="/add"><button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-plus"></span> Add New Character</button></a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Character Search</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" id="character-search" class="form-control">
+                        <br>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary btn-md" id="search-btn"><span class="glyphicon glyphicon-search"></span>
+                                Search Your Feelings. You know it to be true.</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Character Statistics</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="well">
+                            <h2 id="name">Thor</h2>
+                            <div id="stats">
+                                <h3><strong>Role:</strong> <span id="role">Norse Deity</span></h3>
+                                <h3><strong>Age:</strong> <span id="age">600</span></h3>
+                                <h3><strong>Strength:</strong> <span id="strength">2500</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // when #search-btn is clicked run this function
+        $("#search-btn").on("click", function () {
+            // grab the value and remove the white space
+            var searchedCharacter = $("#character-search").val().trim();
+            // update this value to also replace any spaces with nospace and lowercase the value
+            searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+
+            // get the data(json) from the matching character query and run this function
+            $.get("/api/" + searchedCharacter, function (data) {
+                console.log(data);
+                // if response successful, display the stats with name, role, age and strength
+                if (data) {
+                    $("#stats").show();
+                    $("#name").text(data.name);
+                    $("#role").text(data.role);
+                    $("#age").text(data.age);
+                    $("#strength").text(data.strength);
+                }
+                // otherwise replace all the text saying the character was not found, and do not display stats
+                else {
+                    $("#name").text("The force is not strong with this one. Your character was not found.");
+                    $("#stats").hide();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
